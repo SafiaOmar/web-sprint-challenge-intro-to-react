@@ -1,34 +1,37 @@
-import React from "react"
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
+const CharacterCards = styled.div`
+      background-color: black;
+      opacity: 80%;
+      color: lightgrey;
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 2%;
+      margin-bottom: 5%;
+      padding: 4px;
+`
 
-// Write your Character component here
-export default function Character(props) {
-    const {name, status, species, image, origin} = props;
+const Character = props => {
+let {data} = props;
 
+    return(
+        <div>
+            {data.map(starWars =>{
+                return (
+                    <CharacterCards>
+            <div>
+            <h3>Name: {starWars.name}</h3>
+            <h3>Gender: {starWars.gender}</h3>
+            <h3>Birth Year: {starWars.birth_year}</h3>
+            </div>
+            </CharacterCards>
+                )
+})}
 
-
-    return (
-        <Everything className= 'body'>
-        <div className="name">
-
-        </div> 
-
-         <div className= 'picBox'>
-            <img src={image} alt={name}/>    
-         </div>
-
-        <div className= 'description'>
-            <h2>{name}</h2>
-    <p>Species: {species}</p>
-    <p>Origin: {origin}</p>
-    <p>Status: {status}</p>
         </div>
 
-        </Everything>
-        )
-};
-const Everything = styled.div`
-    display: flex;
-    justify-content: space-around;
-`
+    )
+}
+export default Character;
