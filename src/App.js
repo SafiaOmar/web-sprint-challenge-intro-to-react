@@ -1,50 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
 import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import styled from "styled-components";
+import './App.css';
 import Character from './components/Character';
-import styled from 'styled-components';
+import Movie from './components/Movie';
 
-const StyledApp = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  align-items: center;
-  justify-content: space-around;
-  width: 70%;
-  margin: 0 auto;
-`
+const StyledDiv = styled.div`
+   color: gold;
+`;
 
 const App = () => {
-// Try to think through what state you'll need for this app before starting. Then build out
-// the state properties here.
-const [data, setData] = useState([])
-// Fetch characters from the API in an effect hook. Remember, anytime you have a 
-// side effect in a component, you want to think about which state and/or props it should
-// sync up with, if any.
+  
+  
+  
+  // Try to think through what state you'll need for this app before starting. Then build out
+  // the state properties here.
+  const [URL] = useState("https://swapi.dev/api/people")
+  const [chars, setChar] = useState([])
 
-useEffect(() => {
-    axios.get("https://swapi.py4e.com/api/people/")
+  const [mURL] = useState("https://swapi.dev/api/films")
+  const [movies, setMovie] = useState([])
+  // Fetch characters from the API in an effect hook. Remember, anytime you have a 
+  // side effect in a component, you want to think about which state and/or props it should
+  // sync up with, if any.
 
-    .then((res)=>{
-      console.log(res)
-      setData(res.data.results)
+  useEffect(()=>{
+   axios.get(URL)
+      .then((res) => {
+        console.log('RESULTS', res.data)
+        setChar(res.data)
+      })
+      .catch(errors => { debugger})
+  }, [])
 
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-
-}, [])
-
-return (
-  <div className="App">
-  <h1 className="Header">Star Wars Characters</h1>
-  <StyledApp>
-
-      <Character data = {data} />
-      </StyledApp>
-  </div>
-);
+  useEffect(()=>{
+    axios.get(mURL)
+       .then((res) => {
+         console.log('RESULTSMOVIE', res.data.results)
+         setMovie(res.data.results)
+       })
+       .catch(errors => { debugger})
+   }, [])
+  
+  
+  
+  
+  return (
+    <StyledDiv className="App">
+      
+      {chars.map(char => {
+        return(
+      
+      <p><Character character={char} /></p>
+     
+        );
+      })}
+       
+      {movies.map(mov => {
+        return(
+      
+      <p><Movie movie={mov}/></p>
+      
+        );
+      })}
+      
+    </StyledDiv>
+  );
 }
 
 export default App;
